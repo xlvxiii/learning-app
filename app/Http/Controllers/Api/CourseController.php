@@ -12,11 +12,20 @@ class CourseController extends Controller
     // return semua list course
     public function courseList()
     {
-        $result = Course::select('name', 'thumbnail', 'lesson_num', 'id')->get();
-        return response()->json([
-            'code' => 200,
-            'msg' => 'my course list here',
-            'data' => $result
-        ], 200);
+        try {
+            $result = Course::select('name', 'thumbnail', 'lesson_num', 'id')->get();
+            return response()->json([
+                'code' => 200,
+                'msg' => 'my course list here',
+                'data' => $result
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'code' => 500,
+                'msg' => 'Error',
+                'data' => $th->getMessage(),
+            ], 500);
+        }
     }
 }
